@@ -4,6 +4,7 @@ import { connectToDatabase } from "../infra/database/connect";
 
 import { AccountRepository } from "../infra/repositories/AccountRepository";
 
+
 connectToDatabase();
 
 
@@ -13,7 +14,7 @@ async function teste(){
   console.log(account)
 }
 
-// teste();
+teste();
 
 // const signIn = makeSignInUseCase();
 

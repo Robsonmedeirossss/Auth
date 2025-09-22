@@ -1,12 +1,15 @@
   import { Client } from 'pg';
   import { IAccount } from '../../application/interfaces/IAccount';
 
+
+console.log(process.env.DB_USER)
+
   export const client = new Client({
-    user: "root",
-    port: 5432,
-    database: "auth",
-    password: "root",
-    host: "localhost",
+    user: process.env.DB_USER,
+    port: Number(process.env.DB_PORT),
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
   });
 
   export async function connectToDatabase(){
