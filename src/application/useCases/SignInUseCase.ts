@@ -1,7 +1,4 @@
-import { compare } from "bcryptjs";
-import { AccountRepository } from "../repositories/AccountRepository";
 import { InvalidCredentials } from "../errors/InvalidCredentials";
-import { sign } from "jsonwebtoken";
 import { IRepository } from "../interfaces/IRepository";
 import { IHashProvider } from "../interfaces/IHashProvider";
 import { ITokenJwtProvider } from "../interfaces/ITokenJwtProvider";
@@ -40,7 +37,7 @@ export class SignInUseCase{
           sub: account.id,
           iat: Date.now(),
         },
-        "shhhsecreta",
+        `${process.env.SECRET_KEY}`,
         { expiresIn: '1d' }
       );
 
