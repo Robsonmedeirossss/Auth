@@ -5,9 +5,9 @@ import { connectToDatabase } from "../infra/database/connect";
 
 import { makeSignUpController } from "../application/factories/makeSignUpController";
 import { makeSignInController } from "../application/factories/makeSignInController";
-import { routeAdapter } from "../adapters/routeAdapter";
+import { routeAdapter } from "../server/adapters/routeAdapter";
 import { makeListLeadsController } from "../application/factories/makeListLeadsController";
-import { middlewareAdapter } from "../adapters/middlewareAdapter";
+import { middlewareAdapter } from "../server/adapters/middlewareAdapter";
 import { makeAuthenticationMiddleware } from "../application/factories/makeAuthenticationMiddleware";
 
 async function startServer(){
@@ -17,13 +17,6 @@ async function startServer(){
 
     app.listen(process.env.PORT, () => {
         console.log(`Server started at: http://localhost:${process.env.PORT}`);
-    });
-
-    app.get('/', (request, response) => {
-
-        response.status(200).json({
-            success: true,
-        });
     });
 
     app.post('/sign-up', routeAdapter(makeSignUpController()));

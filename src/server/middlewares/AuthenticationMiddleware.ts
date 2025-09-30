@@ -14,9 +14,14 @@ export class AuthenticationMiddleware implements IMiddleware {
                 body: { error: "Token is required" },
             };
         };
+        
+        const [bearer, acessToken] = authorization?.split(' ');
 
         try {
-            const payload = this.tokenJwtProvider.verify(authorization, process.env.SECRET_KEY!);
+
+            if(!bearer || bearer !== 'Bearer') throw Error();
+
+            const payload = this.tokenJwtProvider.verify(acessToken!, process.env.SECRET_KEY!);
 
             return {
                 data: {
