@@ -1,0 +1,16 @@
+export interface IRequest {
+    headers: Record<string, string>;
+}
+
+export interface IResponse {
+    statusCode: number;
+    body: Record<string, any>;
+}
+
+export interface IData {
+    data: Record<string, any> | undefined;
+}
+
+export interface IMiddleware {
+    handle(request: IRequest): Promise<IResponse | IData>;
+}

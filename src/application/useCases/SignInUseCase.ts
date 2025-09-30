@@ -41,8 +41,6 @@ export class SignInUseCase{
         { expiresIn: '1d' }
       );
 
-        console.log(acessToken);
-
       return acessToken;
   }
 

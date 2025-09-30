@@ -1,9 +1,6 @@
   import { Client } from 'pg';
   import { IAccount } from '../../application/interfaces/IAccount';
 
-
-console.log(process.env.DB_USER)
-
   export const client = new Client({
     user: process.env.DB_USER,
     port: Number(process.env.DB_PORT),

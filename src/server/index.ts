@@ -1,28 +1,38 @@
-import { makeSignUpUseCase } from "../application/factories/makeSignUpUseCase";
-import { makeSignInUseCase } from "../application/factories/makeSignInUseCase";
+// import "../infra/config/dotenv";
+import express, { Request, Response } from "express";
+
 import { connectToDatabase } from "../infra/database/connect";
 
-import { AccountRepository } from "../infra/repositories/AccountRepository";
+import { makeSignUpController } from "../application/factories/makeSignUpController";
+import { makeSignInController } from "../application/factories/makeSignInController";
+import { routeAdapter } from "../adapters/routeAdapter";
+import { makeListLeadsController } from "../application/factories/makeListLeadsController";
+import { middlewareAdapter } from "../adapters/middlewareAdapter";
+import { makeAuthenticationMiddleware } from "../application/factories/makeAuthenticationMiddleware";
 
+async function startServer(){
+    await connectToDatabase();
+    const app = express();
+    app.use(express.json());
 
-connectToDatabase();
+    app.listen(process.env.PORT, () => {
+        console.log(`Server started at: http://localhost:${process.env.PORT}`);
+    });
 
+    app.get('/', (request, response) => {
 
-async function teste(){
-  const account = await makeSignUpUseCase().execute({name: "Robson", email: "robsondeiros125@gmail.com", password: "123456"});
+        response.status(200).json({
+            success: true,
+        });
+    });
 
-  console.log(account)
+    app.post('/sign-up', routeAdapter(makeSignUpController()));
+    app.post('/sign-in', routeAdapter(makeSignInController()));
+
+    app.get('/leads', 
+        middlewareAdapter(makeAuthenticationMiddleware()),
+        routeAdapter(makeListLeadsController())
+    );
 }
 
-teste();
-
-// const signIn = makeSignInUseCase();
-
-// const token = signIn.execute({email: "robsonmedeiros125@gmail.com", password: "123456"});
-
-// console.log(token);
-
-
-
-
-
+startServer();
