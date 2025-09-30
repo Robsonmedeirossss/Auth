@@ -8,7 +8,7 @@ export interface IResponse {
 }
 
 export interface IData {
-    data: Record<string, any> | undefined;
+    data: Record<string, any>
 }
 
 export interface IMiddleware {

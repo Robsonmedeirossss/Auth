@@ -17,7 +17,7 @@ export class AuthenticationMiddleware implements IMiddleware {
 
         try {
             const payload = this.tokenJwtProvider.verify(authorization, process.env.SECRET_KEY!);
-            
+
             return {
                 data: {
                     accountId: payload.sub,

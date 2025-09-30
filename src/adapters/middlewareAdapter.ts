@@ -12,11 +12,9 @@ export function middlewareAdapter(middleware: IMiddleware){
             return response.status(responseMiddleware.statusCode).json(responseMiddleware.body);
         };
 
-        if(responseMiddleware.data){
             const { accountId } = responseMiddleware.data;
             request.metadata = { accountId } ;
-        }
-        
+    
         next();
     }
 }
