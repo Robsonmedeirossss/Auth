@@ -1,4 +1,6 @@
-import { IData, IMiddleware, IRequest, IResponse } from "../../application/interfaces/IMiddleware";
+import { JwtPayload } from "jsonwebtoken";
+import { IData, IMiddleware, IResponse } from "../../application/interfaces/IMiddleware";
+import { IRequest } from "../../application/interfaces/IRequest";
 import { ITokenJwtProvider } from "../../application/interfaces/ITokenJwtProvider";
 
 export class AuthenticationMiddleware implements IMiddleware {
@@ -21,11 +23,14 @@ export class AuthenticationMiddleware implements IMiddleware {
 
             if(!bearer || bearer !== 'Bearer') throw Error();
 
-            const payload = this.tokenJwtProvider.verify(acessToken!, process.env.SECRET_KEY!);
+            const payload = this.tokenJwtProvider.verify(acessToken!, process.env.SECRET_KEY!) as JwtPayload;
 
             return {
                 data: {
-                    accountId: payload.sub,
+                    account: {
+                        id: payload.sub,
+                        role: payload.role,
+                    }
                 },
             };
 

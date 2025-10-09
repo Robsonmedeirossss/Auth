@@ -1,5 +1,6 @@
 import { EmailAlreadyExistsError } from "../errors/EmailAlreadyExistsError";
-import { IController, IRequest, IResponse } from "../interfaces/IController";
+import { IController, IResponse } from "../interfaces/IController";
+import { IRequest } from "../interfaces/IRequest";
 import { SignUpUseCase } from "../useCases/SignUpUseCase";
 import z, { ZodError } from "zod";
 

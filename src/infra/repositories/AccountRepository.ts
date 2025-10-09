@@ -12,13 +12,13 @@ export class AccountRepository implements IRepository{
     return accounts;
   }
 
-  async create({ name, email, password }: IAccount): Promise<IAccount>{
+  async create({ name, email, password, role }: IAccount): Promise<IAccount>{
     const [ account ] = await query(`
-      INSERT INTO accounts (name, email, password)
-      VALUES ($1, $2, $3) RETURNING *;
-    `, [name, email, password]);
+      INSERT INTO accounts (name, email, password, role)
+      VALUES ($1, $2, $3, $4) RETURNING *;
+    `, [name, email, password, role]);
 
-    return account;
+    return account!;
   }
 
   async findById(id: string): Promise<IAccount | undefined>{

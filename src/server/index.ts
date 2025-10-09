@@ -9,6 +9,7 @@ import { routeAdapter } from "../server/adapters/routeAdapter";
 import { makeListLeadsController } from "../application/factories/makeListLeadsController";
 import { middlewareAdapter } from "../server/adapters/middlewareAdapter";
 import { makeAuthenticationMiddleware } from "../application/factories/makeAuthenticationMiddleware";
+import { makeAuthorizationMiddleware } from "../application/factories/makeAuthorizationMiddleware";
 
 async function startServer(){
     await connectToDatabase();
@@ -25,6 +26,13 @@ async function startServer(){
     app.get('/leads', 
         middlewareAdapter(makeAuthenticationMiddleware()),
         routeAdapter(makeListLeadsController())
+    );
+    app.post('/leads', 
+        middlewareAdapter(makeAuthenticationMiddleware()),
+        middlewareAdapter(makeAuthorizationMiddleware(['ADMIN', 'USER'])),
+        (request, response) => {
+            response.json({ created: true });
+        }
     );
 }
 

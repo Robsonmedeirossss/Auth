@@ -28,7 +28,7 @@ export class SignUpUseCase{
 
     const hash = await this.hashProvider.hash(password, this.salt);
 
-    const account = await this.accountRepository.create({name, email, password: hash});
+    const account = await this.accountRepository.create({name, email, password: hash, role: 'USER'});
 
     return { id: account.id!, name, email, };
 

@@ -36,6 +36,7 @@ export class SignInUseCase{
         {
           sub: account.id,
           iat: Date.now(),
+          role: account.role,
         },
         `${process.env.SECRET_KEY}`,
         { expiresIn: '1d' }
