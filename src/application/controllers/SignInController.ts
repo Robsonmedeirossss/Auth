@@ -44,11 +44,6 @@ export class SignInController implements IController{
             };
         }
 
-        return {
-          statusCode: 200,
-          body: {
-            success: true,
-          },  
-        };
+        throw Error;
     };
 };

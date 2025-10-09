@@ -1,7 +1,7 @@
-  import { Client } from 'pg';
+  import { Pool } from 'pg';
   import { IAccount } from '../../application/interfaces/IAccount';
 
-  export const client = new Client({
+  export const pool = new Pool({
     user: process.env.DB_USER,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME,
@@ -11,7 +11,7 @@
 
   export async function connectToDatabase(){
     try {
-      await client.connect();
+      await pool.connect();
       console.log("Conexão estabelecida");
     } catch (error) {
       console.log(error)
@@ -19,7 +19,7 @@
 }
 
   export async function query(querySQL: string, params?: string[]): Promise<IAccount[]>{
-    const { rows } = await client.query(querySQL, params);
+    const { rows } = await pool.query(querySQL, params);
 
     return rows;
   }

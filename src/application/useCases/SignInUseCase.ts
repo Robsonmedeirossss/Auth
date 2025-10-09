@@ -26,7 +26,7 @@ export class SignInUseCase{
         throw new InvalidCredentials();
       }
 
-      const isPasswordValid = this.hashProvider.compare(password, account.password);
+      const isPasswordValid = await this.hashProvider.compare(password, account.password);
 
       if(!isPasswordValid){
         throw new InvalidCredentials();

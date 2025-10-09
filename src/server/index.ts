@@ -10,20 +10,18 @@ import { makeListLeadsController } from "../application/factories/makeListLeadsC
 import { middlewareAdapter } from "../server/adapters/middlewareAdapter";
 import { makeAuthenticationMiddleware } from "../application/factories/makeAuthenticationMiddleware";
 import { makeAuthorizationMiddleware } from "../application/factories/makeAuthorizationMiddleware";
+import { CorsMiddleware } from "./middlewares/CorsMiddleware";
 
 async function startServer(){
     await connectToDatabase();
     const app = express();
     app.use(express.json());
 
-    app.listen(process.env.PORT, () => {
-        console.log(`Server started at: http://localhost:${process.env.PORT}`);
-    });
-
     app.post('/sign-up', routeAdapter(makeSignUpController()));
     app.post('/sign-in', routeAdapter(makeSignInController()));
 
     app.get('/leads', 
+        CorsMiddleware,
         middlewareAdapter(makeAuthenticationMiddleware()),
         routeAdapter(makeListLeadsController())
     );
@@ -34,6 +32,10 @@ async function startServer(){
             response.json({ created: true });
         }
     );
+
+     app.listen(process.env.PORT, () => {
+        console.log(`Server started at: http://localhost:${process.env.PORT}`);
+    });
 }
 
 startServer();
